@@ -1,6 +1,11 @@
 const fs = require('fs');
 const xlsx = require('xlsx');
 const nodemailer = require('nodemailer');
+require('dotenv').config();
+
+const UserEmailID = process.env.Email_ID;
+const UserPassWard = process.env.APP_Passward;
+
 
 // Load your Excel file
 const workbook = xlsx.readFile('./Sheet01.xlsx');
@@ -30,8 +35,8 @@ const transporter = nodemailer.createTransport({
   port: 465,
   secure: true,
   auth: {
-    user: '23536akash.2021@gmail.com', // Replace with your Gmail address
-    pass: 'dwlmsbrsoendznsh', // Replace with your App Password
+    user: UserEmailID, // Replace with your Gmail address
+    pass: UserPassWard, // Replace with your App Password
   },
 });
 
@@ -54,15 +59,14 @@ const sendEmail = async (row) => {
   const mailOptions = {
     from: 'Akash Bhadana <23536akash.2021@gmail.com>',
     to: Email.join(','), // Combine all email addresses into a single string
-    subject: `Request for an Interview Opportunity - ${Role} at ${Company}`,
+    subject: `Request for an Interview Opportunity - ${Role}`,
     html: `
-      <p>Dear ${Recruiter || 'Hiring Manager'},</p>
-      <p>I hope this message finds you well. I am writing to express my interest in the <b>${Role}</b> role at <b>${Company}</b>. I believe my experience and skills align closely with the requirements of this position.</p>
-      <p>You can reach me at <b>${ContactNo || 'my email address'}</b> for further discussion. Attached is my <a href="https://drive.google.com/file/d/1dMjAWdXAXLQnQvuX8K6fLozMDIbZ1L5_/view">resume</a> for your reference.</p>
+      <p>Dear Hiring Manager,</p>
+      <p>I hope this message finds you well. I am writing to express my interest in the <b>${Role}</b> role. I believe my experience and skills align closely with the requirements of this position.</p>
+      <p>You can reach me at <b>+91 9811290920</b> for further discussion. Attached is my <a href="https://drive.google.com/file/d/1oG1PV2hH2MVtZtJIwDxqUcODiIXUMmu7/view">resume</a> for your reference.</p>
       <p>Thank you for considering my application. I look forward to the opportunity to contribute to your team.</p>
       <p>Best Regards,</p>
-      <p><b>Akash Bhadana</b><br>Contact: +91 9811290920</p>
-    `,
+      <p><b>Akash Bhadana</b><br>Contact: +91 9811290920</p>`,
   };
 
   try {
